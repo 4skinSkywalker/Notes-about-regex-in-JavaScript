@@ -71,7 +71,9 @@ These are reserved symbols in a regex that are use to quantify how many characte
 - ```{number}``` matches exactly number occurences
 
 Given
-> Fredo said that ```color``` stays to ```colours``` as favorite stays to favourites.
+```
+Fredo said that color stays to colours as favorite stays to favourites.
+```
 
 ```/colou?rs?/``` matches both "color" and "colours" as "?" makes "u" and "s" optional.
 
@@ -84,7 +86,7 @@ The regex ```[abcd]``` matches an "a" or "b" or "c" or "d".
 Note that "*", "+", ".", "(" and ")" in a character class are not interpreted as special characters, instead they are read as literal characters.
 
 Inside a character class you can have special characters, these have special meanings:
-- ```[^abcd]``` the "^" at the very start of the class is called negation. It matches a character which is NOT "a" or "b" or "c" or "d". Keep in mind that it still have to match a character, therefore it's NOT like saying match this character NOT followed by these other characters.
+- ```[^abcd]``` the "^" at the very start of the class is called negation. It matches a character which is not "a" or "b" or "c" or "d". Keep in mind that it still have to match a character, therefore it's not like saying match this character not followed by these other characters.
 - ```[0-9]``` the "-" in between numbers or letters (like so [a-z] or [A-Z]) is called range. It maches a character from 0 to 9 (ends included). You can change the start and the end in order to match different ranges.
 
 To escape the special meaning of the two above:
@@ -92,19 +94,25 @@ To escape the special meaning of the two above:
 - To escape the range ("-") just put it at the start of the class
 
 Given
-> A ```lynk``` is quite a ```link```.
+```
+A lynk is quite a link.
+```
 
-```/l[iy]nk/```
-
-Given
-> Select ```row1```, ```row5``` and ```row9```
-
-```/row[0-9]/```
+```/l[iy]nk/``` matches both ```lynk``` and ```link```.
 
 Given
-> Fredo and ```fredo```
+```
+Select row1, row5 and row9
+```
 
-```/[^F]redo/``` only matches "fredo" because of the use of negation to match a character which is not "F".
+```/row[0-9]/``` matches all three ```row1```, ```row5``` and ```row9```.
+
+Given
+```
+Fredo and fredo
+```
+
+```/[^F]redo/``` only matches ```fredo``` because of the use of negation to match a character which is not "F".
 
 ## Alternation
 Alternation is the other way to have an OR inside a regex.
@@ -112,9 +120,11 @@ Alternation is the other way to have an OR inside a regex.
 The difference between character class and alternation is that alternation let you define a whole pattern and not just a single character.
 
 Given
-> ```sitename.com```, ```sitename.net```, ```sitename.org``` and sitename.it
+```
+sitename.com, sitename.net, sitename.org and sitename.it
+```
 
-```/sitename\.(com|net|org)/``` doesn't match "sitename.it" because there's not "it" in the alternation.
+```/sitename\.(com|net|org)/``` matches all domains except ```sitename.it``` because there's not "it" in the alternation.
 
 ## Position
 Some metacharacters are meant to match a position in the line:
@@ -125,43 +135,69 @@ Some metacharacters are meant to match a position in the line:
 These kind of metacharacter don't match characters but the in-between characters.
 
 Given
-> ```this``` is just a line
+```
+this is just a line
+Is this just a line?
+```
 
-> Is this just a line?
-
-```/^This/```
-
-Given
-> I like to ```program```
-
-> program completed
-
-```/program$/```
+```/^this/``` only matches the first ```this``` as it's at the beggining of the line.
 
 Given
-> This ```is``` pissing me off!
+```
+I like to program
+program completed
+```
 
-```/\bis\b/``` matches "is" surrounded by spaces but not the "is" in "This" nor the one in "pissing", thanks to the word boundary position metacharacter.
+```/program$/``` only matches the first ```program``` as it's at the end of the line.
+
+Given
+```
+This is pissing me off!
+```
+
+```/\bis\b/``` matches ```is``` alone (surrounded by spaces) but not the "is" in "This" nor the one in "pissing", thanks to the word boundary position metacharacter.
 
 ## Capturing group
 A capturing group is used to capture a pattern within the regex.
 
 Given
-> ```123```-123-123, ```456```-456-456 and ```789```-789-789
+```
+123-123-123, 456-456-456 and 789-789-789
+```
 
 ```/(\d{3})-\d{3}-\d{3}/``` captures the prefixes of those sequences.
 
 In a search-and-replace operation within a text editor you can refer to the first captured groups with "$1".
 
 Given
-> Fredo Corleone
+```
+Fredo Corleone
+```
 
 Search with ```/(Fredo)\s(Corleone)/```
 
 Replace with "$2 $1"
 
 Result
-> Corleone Fredo
+```
+Corleone Fredo
+```
+
+Given
+```
+[Google](www.google.com)
+[Gmail](www.gmail.com)
+```
+
+Search with ```/\[(\w+?)\]\((\w+?)\)/```
+
+Replace with ```<a href="$2">$1</a>```
+
+Result
+```
+<a href="www.google.com">Google</a>
+<a href="www.gmail.com">Gmail</a>
+```
 
 To match a literal parenthesis, escape it you can use a backslash in front of it. The same holds true for any kind of special character.
 
@@ -171,7 +207,9 @@ Backreference is used inside the regex to refer to the same very pattern matched
 We have seen that "$1" can be used in a search-and-replace operation to refer to the first capturing group, instead of that to use it within a regex you have to use "\1".
 
 Given
-> D```ee```ar fri```ee```nd of m```ii```ne
+```
+Deear frieend of miine
+```
 
 ```/(\w)\1/``` matches all the doubles.
 
