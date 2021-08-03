@@ -31,11 +31,27 @@ You can have metacharacters that match just one character:
 
 To escape the ```.``` you can use a backslash in front of it, infact "\." means a literal dot.
 
+## Metacharacters: quantifiers
+These are reserved symbols in a regex that are use to quantify how many characters of one kind to match:
+- ```*``` matches 0 or more occurences
+- ```+``` matches 1 or more occerences
+- ```?``` matches 0 or 1 occurences (optional character)
+- ```{min, max}``` matches from min to max occurences (ends included)
+- ```{number}``` matches exactly number occurences
+
+### Quantifiers: use case
+Given
+> Fredo said that ```color``` stays to ```colours``` as favorite stays to favourites.
+
+```/colou?rs?/``` matches both "color" and "colours" as "?" makes "u" and "s" optional.
+
 ## Metacharacters: character class
 Character class is one of the two ways to have an OR inside a regex.
 The character class is defined with square brackets and it matches one of any character you have put inside the class.
 
 The regex ```[abcd]``` matches an "a" or "b" or "c" or "d".
+
+Note that "*", "+", ".", "(" and ")" in a character class are not interpreted as special characters, instead they are read as literal characters.
 
 ### Character class: special characters
 Inside a character class you can have special characters, these have special meanings:
@@ -48,26 +64,17 @@ To escape the special meaning of the two above:
 
 ### Character class: use case
 Given
-```
-A lynk is quite a link
-```
+> A ```lynk``` is quite a ```link```.
 
-```/l[iy]nk/``` matches both "link" and "lynk".
+```/l[iy]nk/```
 
 Given
-```
-row1
-row5
-row9
-```
+> Select ```row1```, ```row5``` and ```row9```
 
-```/row[0-9]/``` matches all three above.
+```/row[0-9]/```
 
 Given
-```
-Fredo
-fredo
-```
+> Fredo and ```fredo```
 
 ```/[^F]redo/``` only matches "fredo" because of the use of negation to match a character which is not "F".
 
@@ -78,17 +85,11 @@ The difference between character class and alternation is that alternation let y
 
 ### Alternation: use case
 Given
-```
-fredo@email.com
-fredo@email.net
-fredo@email.org
-```
+> ```sitename.com```, ```sitename.net```, ```sitename.org``` and sitename.it
 
-```/fredo@email\.(com|net|org)/``` matches all three above.
+```/sitename\.(com|net|org)/``` doesn't match "sitename.it" because there's not "it" in the alternation.
 
-<!--metacharacter: quantifiers
-metacharacter: position
-metacharacter: alternation
+<!--metacharacter: position
 metacharacter: capturing group
 backreference
 regex.test(string)
