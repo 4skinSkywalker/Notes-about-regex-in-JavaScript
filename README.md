@@ -1,10 +1,11 @@
+
 # Notes about regex in JavaScript
 This document is my collection of notes about regex regarding the JavaScript programming language.
 
 ## What is a regex?
 A regex is a sequence of characters that defines a search pattern for text.
 
-To make a regex in JavaScript you either uses a couple of double forward slashes or the RegExp constructor: ```/l[iy]nk/``` and ```new RegExp("l[iy]nk")``` mean the same thing.
+To make a regex in JavaScript you either uses a couple of double forward slashes or the RegExp constructor: `/l[iy]nk/` and `new RegExp("l[iy]nk")` mean the same thing.
 
 ---
 
@@ -34,54 +35,64 @@ To make a regex in JavaScript you either uses a couple of double forward slashes
   </ol>
 </details>
 
-
 ## Flags
+When using a regex such as `/hello/` you can give it flags like so `/hello/i` or `/hello/ig`.
+
+Flags are a way to configure how the regex will behave.
+
+There are only 6 flags in JavaScript (GIMSUY):
+- `i` insensitive, will treat "A" the same as "a"
+- `g` global, looks for all matches, without it only the first match is returned
+- `m` multiline, affects the behavior of `^` and `$` whose will match the start and the end of every line
+- `s` enables "dotall" mode, that allows a dot  `.`  to match newline character  `\n`
+- `u` unicode, read more [RegExp Unicode](https://javascript.info/regexp-unicode) 
+- `y` enables "sticky" mode, read more [RegExp Sticky](https://javascript.info/regexp-sticky)
 
 ## Literal characters and Metacharacters
 In regex there are two broad categories of symbols you can use:
 1. Literal characters (such as the "H" in "Hello")
-2. Metacharacters (such as ```\d``` which stands for digit)
+2. Metacharacters (such as `\d` which stands for digit)
 
 ## Literal characters
 Words, which by definition are sequences of literal characters, are themselves already regex.
 
-Take for instance ```/Hello/``` which matches the word "Hello": a pattern that starts "H", followed by "e", followed by "l", followed by another "l", followed by a "o".
+Take for instance `/Hello/` which matches the word "Hello": a pattern that starts "H", followed by "e", followed by "l", followed by another "l", followed by a "o".
 
 ## Metacharacters
 Metacharacters are special kind of symbols you can use in the regex to achieve more generic matches.
 
 ## Single character
 You can have metacharacters that match just one character:
-- ```\d``` matches a number from 0 to 9
-- ```\w``` matches a word character, which is any alphanumeric
-- ```\s``` matches a space (a normal space, a tab and in some cases also the newline)
-- ```.``` (literal dot) matches any character whatsoever
-- ```\D``` matches a NON number
-- ```\W``` matches a NON word character
-- ```\S``` matches a NON space
+- `\d` matches a number from 0 to 9
+- `\w` matches a word character, which is any alphanumeric
+- `\s` matches a space (a normal space, a tab and in some cases also the newline)
+- `.` (literal dot) matches any character whatsoever
+- `\D` matches a NON number
+- `\W` matches a NON word character
+- `\S` matches a NON space
 
-To match a literal dot, escape the ```.``` you can use a backslash in front of it. The same holds true for any kind of special character.
+To match a literal dot, escape the `.` you can use a backslash in front of it. The same holds true for any kind of special character.
 
 ## Quantifiers
 These are reserved symbols in a regex that are use to quantify how many characters of one kind to match:
-- ```*``` matches 0 or more occurences
-- ```+``` matches 1 or more occerences
-- ```?``` matches 0 or 1 occurences (optional character)
-- ```{min, max}``` matches from min to max occurences (ends included)
-- ```{number}``` matches exactly number occurences
+- `*` matches 0 or more occurences
+- `+` matches 1 or more occerences
+- `?` matches 0 or 1 occurences (optional character)
+- `{min, max}` matches from min to max occurences (ends included)
+- `{number}` matches exactly number occurences
 
 Given
 ```
 Fredo said that color stays to colours as favorite stays to favourites.
 ```
 
-```/colou?rs?/``` matches both "color" and "colours" as "?" makes "u" and "s" optional.
+`/colou?rs?/` matches both "color" and "colours" as "?" makes "u" and "s" optional.
 
 ## Character class
 Character class is one of the two ways to have an OR inside a regex.
 The character class is defined with square brackets and it matches one of any character you have put inside the class.
 
-The regex ```[abcd]``` matches an "a" or "b" or "c" or "d".
+The regex `[abcd]` matches an "a" or "b" or "c" or "d".
 
 Note that "*", "+", ".", "(" and ")" in a character class are not interpreted as special characters, instead they are read as literal characters.
 
@@ -98,21 +109,21 @@ Given
 A lynk is quite a link.
 ```
 
-```/l[iy]nk/``` matches both ```lynk``` and ```link```.
+`/l[iy]nk/` matches both `lynk` and `link`.
 
 Given
 ```
 Select row1, row5 and row9
 ```
 
-```/row[0-9]/``` matches all three ```row1```, ```row5``` and ```row9```.
+`/row[0-9]/` matches all three `row1`, `row5``` and `row9`.
 
 Given
 ```
 Fredo and fredo
 ```
 
-```/[^F]redo/``` only matches ```fredo``` because of the use of negation to match a character which is not "F".
+`/[^F]redo/` only matches `fredo` because of the use of negation to match a character which is not "F".
 
 ## Alternation
 Alternation is the other way to have an OR inside a regex.
@@ -124,13 +135,13 @@ Given
 sitename.com, sitename.net, sitename.org and sitename.it
 ```
 
-```/sitename\.(com|net|org)/``` matches all domains except ```sitename.it``` because there's not "it" in the alternation.
+`/sitename\.(com|net|org)/` matches all domains except `sitename.it` because there's not "it" in the alternation.
 
 ## Position
 Some metacharacters are meant to match a position in the line:
-- ```^``` start of the line
-- ```$``` end of the line
-- ```\b``` word boundary (position in-between a word character and a non-word character)
+- `^` start of the line
+- `$` end of the line
+- `\b` word boundary (position in-between a word character and a non-word character)
 
 These kind of metacharacter don't match characters but the in-between characters.
 
@@ -140,7 +151,7 @@ this is just a line
 Is this just a line?
 ```
 
-```/^this/``` only matches the first ```this``` as it's at the beggining of the line.
+`/^this/` only matches the first `this` as it's at the beggining of the line.
 
 Given
 ```
@@ -148,14 +159,14 @@ I like to program
 program completed
 ```
 
-```/program$/``` only matches the first ```program``` as it's at the end of the line.
+`/program$/` only matches the first `program` as it's at the end of the line.
 
 Given
 ```
 This is pissing me off!
 ```
 
-```/\bis\b/``` matches ```is``` alone (surrounded by spaces) but not the "is" in "This" nor the one in "pissing", thanks to the word boundary position metacharacter.
+`/\bis\b/` matches `is` alone (surrounded by spaces) but not the "is" in "This" nor the one in "pissing", thanks to the word boundary position metacharacter.
 
 ## Capturing group
 A capturing group is used to capture a pattern within the regex.
@@ -165,7 +176,7 @@ Given
 123-123-123, 456-456-456 and 789-789-789
 ```
 
-```/(\d{3})-\d{3}-\d{3}/``` captures the prefixes of those sequences.
+`/(\d{3})-\d{3}-\d{3}/` captures the prefixes of those sequences.
 
 In a search-and-replace operation within a text editor you can refer to the first captured groups with "$1".
 
@@ -174,7 +185,7 @@ Given
 Fredo Corleone
 ```
 
-Search with ```/(Fredo)\s(Corleone)/```
+Search with `/(Fredo)\s(Corleone)/`
 
 Replace with "$2 $1"
 
@@ -189,9 +200,9 @@ Given
 [Gmail](www.gmail.com)
 ```
 
-Search with ```/\[(\w+?)\]\((\w+?)\)/```
+Search with `/\[(\w+?)\]\((\w+?)\)/`
 
-Replace with ```<a href="$2">$1</a>```
+Replace with `<a href="$2">$1</a>`
 
 Result
 ```
@@ -211,11 +222,11 @@ Given
 Deear frieend of miine
 ```
 
-```/(\w)\1/``` matches all the doubles.
+`/(\w)\1/` matches all the doubles.
 
 Key takeaways:
-- Use ```$1``` within the search-and-replace
-- Use ```\1``` withing the regex
+- Use `$1` within the search-and-replace
+- Use `\1` withing the regex
 
 <!--
 regex.test(string)
